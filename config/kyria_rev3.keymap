@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2023 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+
+// Uncomment this block if using RGB
+&led_strip {
+    // chain-length = <6>; // underglow only
+    // chain-length = <31>; // Uncomment if using both per-key and underglow LEDs
+    chain-length = <25>; // Uncomment if using only per-key LEDs.
+};
+
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer { // layer 0
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            // |  ESC  |  Q  |  W  |  E   |  R   |  T   |                                          |  Y   |  U    |  I    |  O   |   P   |   |\  |
+            // |  TAB  |  A  |  S  |  D   |  F   |  G   |                                          |  H   |  J    |  K    |  L   |   ;:   |  '"  |
+            // | SHIFT |  Z  |  X  |  C   |  V   |  B   |  Layer3 | ENCODER |  | ENCODER | L SHIFT |  N   |  M    |  ,<  |  .>  |   /?  | CTRL |
+            //                     | GUI  | DEL  | RET  |  SPACE  | Layer2  |  |  Layer1 |  SPACE  | TAB  | BSPC  | R-ALT |
+            bindings = <
+            &kp ESC   &kp Q &kp W &kp E &kp R &kp T                                                  &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSLH
+            &kp TAB   &kp A &kp S &kp D &kp F &kp G                                                  &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
+            &kp LSHFT &kp Z &kp X &kp C &kp V &kp B           &mo 3 &trans        &trans  &kp LSHFT  &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp RCTRL
+                                  &kp LGUI &kp DEL &kp RET    &kp SPACE &mo 2     &mo 1   &kp SPACE  &kp TAB &kp BSPC &kp RALT
+            >;
+
+            // left encoder volume up (clockwise) and volume down (counter-clockwise)
+            // right encoder page up (clockwise) and page down (counter-clockwise)
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+        };
+            overflow_layer { // layer 1
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            // |    |    | `~ |    | -_ | =+ |                                               | 1! | 2@ | 3# | 4$ | [{ | ]} |
+            // |    |    |    | UP |    |    |                                               | 5% | 6^ | 7& | 8* |    |    |
+            // | CAPS|    |LEFT|DOWN|RGHT|    |    |    |                           |    |    | 9( | 0) |    |    |    |    |      
+            //                |    |    |    |    |    |                           |    |    |    |    |    |
+            bindings = <
+            &trans &trans &kp GRAVE &trans   &kp MINUS &kp EQUAL                                  &kp N1 &kp N2 &kp N3 &kp N4 &kp LBKT &kp RBKT
+            &trans &trans &trans    &kp UP   &trans    &trans                                     &kp N5 &kp N6 &kp N7 &kp N8 &trans &trans
+            &kp CAPS &trans &kp LEFT  &kp DOWN &kp RIGHT &trans &trans &trans       &trans &trans &kp N9 &kp N0 &trans &trans &trans &trans
+                                    &trans   &trans    &trans &trans &trans         &trans &trans &trans &trans &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+        };
+        function_layer { // layer 2
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            // | F1 | F2 | F3 | F4 | F5 | F6 |                                               | F7 | F8 | F9 | F10 | F11 | F12 |
+            // |    |    |    |    |    |    |                                               |    |    |    |    |    |    |
+            // |    |    |    |    |    |    |    |    |                           |    |    |    |    |    |    |    |    |      
+            //                |    |    |    |    |    |                           |    |    |    |    |    |
+            bindings = <
+            &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6                                    &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
+            &trans &trans &trans &trans &trans &trans                                    &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans &trans
+                                 &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+        };
+        connection_layer { // layer 3
+            // ---------------------------------------------------------------------------------------------------------------------------------
+            // | BTSEL0  | BTSEL1  |    |    |    |    |                                               |    |    |    |    |    |   BT_CLR  |
+            // | BTSEL2  | BTSEL3 |    |    |    |    |                                               |    |    |    |    |    |           |
+            // |        |        |    |    |    |    |    |    |                           |    |    |    |    |    |    |    |           |      
+            //                       |    |    |    |    |    |                           |    |    |    |    |    |
+            bindings = <
+            &bt BT_SEL 0  &bt BT_SEL 1  &trans &trans &trans &trans                      &trans &trans &trans &trans &trans &bt BT_CLR
+            &bt BT_SEL 2  &bt BT_SEL 3  &trans &trans &trans &trans                      &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans &trans &trans &trans
+                                 &trans &trans &trans &trans &trans        &trans &trans &trans &trans &trans
+            >;
+
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+        };
+    };
+};
