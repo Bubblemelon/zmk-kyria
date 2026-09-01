@@ -9,11 +9,11 @@
 #include <dt-bindings/zmk/keys.h>
 
 // Uncomment this block if using RGB
-&led_strip {
-    // chain-length = <6>; // underglow only
-    // chain-length = <31>; // Uncomment if using both per-key and underglow LEDs
-    chain-length = <25>; // Uncomment if using only per-key LEDs.
-};
+// &led_strip {
+//     // chain-length = <6>; // underglow only
+//     // chain-length = <31>; // Uncomment if using both per-key and underglow LEDs
+//     chain-length = <25>; // Uncomment if using only per-key LEDs.
+// };
 
 
 / {
